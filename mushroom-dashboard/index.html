@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NấmSmart — Nhà Trồng Nấm Thông Minh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/auth.js"></script>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="uni-brand">
+      <div class="uni-logo">
+        <img src="/images/logo.png" alt="HCMUTE Logo">
+      </div>
+      <div class="uni-info">
+        <div class="uni-name">ĐH Giao thông Vận tải</div>
+        <div class="uni-sub">Khoa Điện – Điện tử</div>
+      </div>
+    </div>
+
+    <div class="student-card">
+      <div class="student-avatar">DĐD</div>
+      <div class="student-info">
+        <div class="student-name">Đỗ Đức Duy</div>
+        <div class="student-id">Sinh viên thực hiện</div>
+      </div>
+    </div>
+
+    <div class="project-logo">
+      <div class="project-icon">🍄</div>
+      <div>
+        <div class="project-name">NấmSmart</div>
+        <div class="project-ver">v4.1 · 8 THIẾT BỊ</div>
+      </div>
+    </div>
+
+    <!-- NODE STATUS -->
+    <div class="node-status-wrap">
+      <div class="node-status-title">KẾT NỐI SLAVE</div>
+      <div class="node-row">
+        <div class="node-dot online" id="node-a-dot"></div>
+        <div class="node-name">Slave 1 · Phòng A</div>
+        <div class="node-latency" id="node-a-latency">--</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section-label">GIÁM SÁT</div>
+    <nav class="sidebar-nav">
+      <a class="nav-link active" href="#" data-view="dashboard">
+        <span class="nav-icon">📊</span> Tổng quan
+        <span class="nav-live">LIVE</span>
+      </a>
+      <a class="nav-link" href="#" data-view="devices">
+        <span class="nav-icon">⚙️</span> Điều khiển
+      </a>
+      <a class="nav-link" href="#" data-view="schedule">
+        <span class="nav-icon">🕐</span> Lịch hẹn giờ
+      </a>
+      <a class="nav-link" href="#" data-view="charts">
+        <span class="nav-icon">📈</span> Biểu đồ
+      </a>
+      <a class="nav-link" href="#" data-view="settings">
+        <span class="nav-icon">⚙️</span> Cài đặt ngưỡng
+      </a>
+      <a class="nav-link" href="#" data-view="dashboard">
+        <span class="nav-icon">🔔</span> Cảnh báo
+        <span class="nav-badge warn" id="total-alert">0</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ALERT BANNER -->
+    <div class="alert-banner" id="alert-banner">
+      <div class="alert-banner-icon">⚠</div>
+      <div class="alert-banner-text" id="alert-banner-text">Cảnh báo!</div>
+      <button class="alert-banner-close" onclick="dismissAlert()">✕</button>
+    </div>
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title" id="page-title">Tổng quan hệ thống</div>
+        <div class="topbar-sub">ĐH Giao thông Vận tải · SV: Đỗ Đức Duy · Cập nhật: <span id="last-update">--</span> · <span id="ws-status-txt">🔴 Chưa kết nối</span></div>
+      </div>
+      <div class="topbar-right">
+        <div class="clock-wrap">
+          <div class="clock-time" id="clock">00:00:00</div>
+          <div class="clock-date" id="date-disp"></div>
+        </div>
+        <div class="icon-btn" id="notif-btn">
+          🔔<span class="alert-dot" id="notif-dot" style="display:none">0</span>
+        </div>
+        <button class="icon-btn" id="export-excel-btn" title="Xuất Excel" onclick="downloadExcel()">
+          📥
+        </button>
+        <div class="user-menu">
+          <div class="avatar" id="avatarBtn">DĐD</div>
+          <div class="user-menu-dropdown" id="userMenuDropdown">
+            <div class="user-menu-header">
+              <div class="user-name" id="userNameMenu">Người dùng</div>
+              <div class="user-id" id="userIdMenu">--</div>
+            </div>
+            <hr class="user-menu-divider">
+            <a href="#" class="user-menu-item" onclick="nasSmartAuth.logout(); return false;">
+              <span>🚪 Đăng xuất</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════
+         VIEW: TỔNG QUAN
+    ═══════════════════════════════════════════════ -->
+    <div id="view-dashboard" class="view active">
+
+      <!-- 5 STAT CARDS: TẤT CẢ CẢM BIẾN + RTC -->
+      <div class="stat-cards">
+        <div class="stat-card reveal" style="--delay:.04s" data-color="green">
+          <div class="stat-top"><div class="stat-label">Nhiệt độ</div><div class="stat-icon-wrap green">🌡️</div></div>
+          <div class="stat-value" id="dash-temp">--<span class="stat-unit">°C</span></div>
+          <div class="stat-bar-wrap"><div class="stat-bar-track"><div class="stat-bar-fill green" id="bar-temp" style="width:0%"></div></div></div>
+          <div class="stat-range">Ngưỡng: 28 – 35°C</div>
+        </div>
+        <div class="stat-card reveal" style="--delay:.08s" data-color="blue">
+          <div class="stat-top"><div class="stat-label">Độ ẩm không khí</div><div class="stat-icon-wrap blue">💧</div></div>
+          <div class="stat-value" id="dash-humi">--<span class="stat-unit">%</span></div>
+          <div class="stat-bar-wrap"><div class="stat-bar-track"><div class="stat-bar-fill blue" id="bar-humi" style="width:0%"></div></div></div>
+          <div class="stat-range">Ngưỡng: 80 – 95%</div>
+        </div>
+        <div class="stat-card reveal" style="--delay:.12s" data-color="amber">
+          <div class="stat-top"><div class="stat-label">Độ ẩm đất</div><div class="stat-icon-wrap amber">🌱</div></div>
+          <div class="stat-value" id="dash-soil">--<span class="stat-unit">%</span></div>
+          <div class="stat-bar-wrap"><div class="stat-bar-track"><div class="stat-bar-fill amber" id="bar-soil" style="width:0%"></div></div></div>
+          <div class="stat-range">Mức tốt: 40 – 80%</div>
+        </div>
+        <div class="stat-card reveal" style="--delay:.16s" data-color="teal">
+          <div class="stat-top"><div class="stat-label">Ánh sáng</div><div class="stat-icon-wrap teal">☀️</div></div>
+          <div class="stat-value" id="dash-lux">--<span class="stat-unit">lux</span></div>
+          <div class="stat-bar-wrap"><div class="stat-bar-track"><div class="stat-bar-fill teal" id="bar-lux" style="width:0%"></div></div></div>
+          <div class="stat-range">Ngưỡng bật đèn: &lt;50 lux</div>
+        </div>
+        <div class="stat-card reveal" style="--delay:.20s" data-color="purple">
+          <div class="stat-top"><div class="stat-label">Đồng hồ DS3231</div><div class="stat-icon-wrap purple">🕐</div></div>
+          <div class="stat-value rtc-val" id="dash-rtc">--:--:--</div>
+          <div class="stat-range">Thời gian thực từ RTC</div>
+        </div>
+      </div>
+
+      <!-- PHẦN TỔNG QUAN CHI TIẾT: CẢM BIẾN + HIỆU NĂNG -->
+      <div class="detailed-overview-section reveal" style="--delay:.22s">
+        <div class="overview-title">📊 TỔNG QUAN CHI TIẾT</div>
+        
+        <!-- CẢM BIẾN CHI TIẾT -->
+        <div class="detail-row">
+          <div class="detail-card metric-clickable" data-gauge="dht">
+            <div class="detail-header">🌡️ DHT22</div>
+            <div class="detail-content">
+              <div class="detail-stat">
+                <div class="detail-label">Nhiệt độ</div>
+                <div class="detail-value" id="detail-dht-temp">--°C</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">Độ ẩm</div>
+                <div class="detail-value" id="detail-dht-humi">--% </div>
+              </div>
+              <div class="detail-status" id="detail-dht-status">🔴 Chưa kết nối</div>
+            </div>
+          </div>
+
+          <div class="detail-card metric-clickable" data-gauge="sht">
+            <div class="detail-header">🌡️ SHT30</div>
+            <div class="detail-content">
+              <div class="detail-stat">
+                <div class="detail-label">Nhiệt độ</div>
+                <div class="detail-value" id="detail-sht-temp">--°C</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">Độ ẩm</div>
+                <div class="detail-value" id="detail-sht-humi">--% </div>
+              </div>
+              <div class="detail-status" id="detail-sht-status">🔴 Chưa kết nối</div>
+            </div>
+          </div>
+
+          <!-- HIỆU NĂNG LORA -->
+          <div class="detail-card metric-clickable" data-gauge="rssi">
+            <div class="detail-header">📡 RSSI (dBm)</div>
+            <div class="detail-content">
+              <div class="detail-stat">
+                <div class="detail-label">Hiện tại</div>
+                <div class="detail-value" id="detail-rssi-last">--</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">Min/Max</div>
+                <div class="detail-value detail-minmax" id="detail-rssi-range">--/--</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">Trung bình</div>
+                <div class="detail-value detail-avg" id="detail-rssi-avg">--</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- LATENCY -->
+          <div class="detail-card metric-clickable" data-gauge="latency">
+            <div class="detail-header">⚡ Latency (ms)</div>
+            <div class="detail-content">
+              <div class="detail-stat">
+                <div class="detail-label">Hiện tại</div>
+                <div class="detail-value" id="detail-latency-last">--</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">Min/Max</div>
+                <div class="detail-value detail-minmax" id="detail-latency-range">--/--</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">Trung bình</div>
+                <div class="detail-value detail-avg" id="detail-latency-avg">--</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CMD RESPONSE -->
+          <div class="detail-card metric-clickable" data-gauge="cmd">
+            <div class="detail-header">✅ CMD Response (ms)</div>
+            <div class="detail-content">
+              <div class="detail-stat">
+                <div class="detail-label">Hiện tại</div>
+                <div class="detail-value" id="detail-cmd-last">--</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">Min/Max</div>
+                <div class="detail-value detail-minmax" id="detail-cmd-range">--/--</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">Trung bình</div>
+                <div class="detail-value detail-avg" id="detail-cmd-avg">--</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PACKETS STATS -->
+          <div class="detail-card metric-clickable" data-gauge="packets">
+            <div class="detail-header">📦 Gói tin LoRa</div>
+            <div class="detail-content">
+              <div class="detail-stat">
+                <div class="detail-label">Tổng cộng</div>
+                <div class="detail-value" id="detail-pkt-total">0</div>
+              </div>
+              <div class="detail-stat">
+                <div class="detail-label">DATA/ACK/Lỗi</div>
+                <div class="detail-value detail-packets" id="detail-pkt-breakdown">0/0/0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- THIẾT BỊ TRẠNG THÁI — QUICK VIEW -->
+      <div class="devices-section reveal" style="--delay:.24s">
+        <div class="devices-header">
+          <h3 class="devices-title">⚙️ Trạng thái 8 thiết bị</h3>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="devices-mode-badge" id="devices-mode-badge">CHẾ ĐỘ: <strong>AUTO</strong></div>
+            <button class="btn-mode" id="mode-toggle-btn" onclick="toggleMode()">🔄 Chuyển MANUAL</button>
+          </div>
+        </div>
+        <div class="devices-grid">
+          <div class="device-card" id="device-den_suoi1" onclick="toggleDevice('den_suoi1')">
+            <div class="device-indicator"></div>
+            <div class="device-icon">🔆</div>
+            <div class="device-name">Đèn sưởi 1</div>
+            <div class="device-status" id="device-den_suoi1-status">TẮT</div>
+          </div>
+          <div class="device-card" id="device-den_suoi2" onclick="toggleDevice('den_suoi2')">
+            <div class="device-indicator"></div>
+            <div class="device-icon">🔆</div>
+            <div class="device-name">Đèn sưởi 2</div>
+            <div class="device-status" id="device-den_suoi2-status">TẮT</div>
+          </div>
+          <div class="device-card" id="device-quat_hut1" onclick="toggleDevice('quat_hut1')">
+            <div class="device-indicator"></div>
+            <div class="device-icon">🌀</div>
+            <div class="device-name">Quạt hút 1</div>
+            <div class="device-status" id="device-quat_hut1-status">TẮT</div>
+          </div>
+          <div class="device-card" id="device-quat_hut2" onclick="toggleDevice('quat_hut2')">
+            <div class="device-indicator"></div>
+            <div class="device-icon">🌀</div>
+            <div class="device-name">Quạt hút 2</div>
+            <div class="device-status" id="device-quat_hut2-status">TẮT</div>
+          </div>
+          <div class="device-card" id="device-den_phong" onclick="toggleDevice('den_phong')">
+            <div class="device-indicator"></div>
+            <div class="device-icon">💡</div>
+            <div class="device-name">Đèn phòng</div>
+            <div class="device-status" id="device-den_phong-status">TẮT</div>
+          </div>
+          <div class="device-card" id="device-phun_suong" onclick="toggleDevice('phun_suong')">
+            <div class="device-indicator"></div>
+            <div class="device-icon">💧</div>
+            <div class="device-name">Phun sương</div>
+            <div class="device-status" id="device-phun_suong-status">TẮT</div>
+          </div>
+          <div class="device-card" id="device-quat_suong" onclick="toggleDevice('quat_suong')">
+            <div class="device-indicator"></div>
+            <div class="device-icon">🌬️</div>
+            <div class="device-name">Quạt thổi sương</div>
+            <div class="device-status" id="device-quat_suong-status">TẮT</div>
+          </div>
+          <div class="device-card" id="device-device8" onclick="toggleDevice('device8')">
+            <div class="device-indicator"></div>
+            <div class="device-icon">⚙️</div>
+            <div class="device-name">Thiết bị 8</div>
+            <div class="device-status" id="device-device8-status">TẮT</div>
+          </div>
+        </div>
+        <div class="device-bulk-btns">
+          <button class="btn-bulk on" onclick="controlAll(true)">🔆 Bật tất cả</button>
+          <button class="btn-bulk off" onclick="controlAll(false)">⭕ Tắt tất cả</button>
+        </div>
+      </div>
+
+      <!-- LOG ONLY -->
+      <div class="dash-bottom-row reveal" style="--delay:.28s">
+        <div class="event-log-card">
+          <div class="mc-header">
+            <div class="mc-title">📋 Nhật ký sự kiện</div>
+            <span class="pill teal" id="log-count-pill">0 sự kiện</span>
+          </div>
+          <div class="event-log-list" id="event-log-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         VIEW: ĐIỀU KHIỂN THIẾT BỊ
+    ═══════════════════════════════════════════════ -->
+    <div id="view-devices" class="view">
+      <div class="settings-view">
+
+        <!-- MODE CONTROL -->
+        <div class="settings-section">
+          <div class="settings-section-title">🎛️ Chế độ điều khiển</div>
+          <div class="settings-section-sub">Chế độ AUTO: hệ thống tự bật/tắt theo ngưỡng cảm biến. Chế độ MANUAL: bạn điều khiển trực tiếp.</div>
+          <div class="mode-control-row">
+            <div class="mode-card" id="mc-auto" onclick="window.setMode('AUTO')" style="cursor:pointer">
+              <div class="mode-icon">🤖</div>
+              <div class="mode-label">TỰ ĐỘNG</div>
+              <div class="mode-sub">Theo ngưỡng cảm biến</div>
+            </div>
+            <div class="mode-card" id="mc-manual" onclick="window.setMode('MANUAL')" style="cursor:pointer">
+              <div class="mode-icon">🖐️</div>
+              <div class="mode-label">THỦ CÔNG</div>
+              <div class="mode-sub">Điều khiển trực tiếp</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 DEVICE CARDS FULL CONTROL -->
+        <div class="settings-section">
+          <div class="settings-section-title">⚙️ Điều khiển từng thiết bị</div>
+          <div class="settings-section-sub">Click vào card để bật/tắt. Hệ thống sẽ tự chuyển sang MANUAL nếu đang ở AUTO.</div>
+          <div class="dev-ctrl-grid">
+
+            <div class="dev-ctrl-card" id="dcc-den_suoi1" onclick="toggleDevice('den_suoi1')">
+              <div class="dcc-icon">🔆</div>
+              <div class="dcc-info">
+                <div class="dcc-name">Đèn sưởi 1</div>
+                <div class="dcc-sub">Relay D4 — Slave UNO</div>
+              </div>
+              <div class="dcc-toggle-wrap">
+                <div class="dcc-state" id="dcc-den_suoi1-st">TẮT</div>
+                <div class="dcc-toggle" id="dcc-den_suoi1-tog"></div>
+              </div>
+            </div>
+
+            <div class="dev-ctrl-card" id="dcc-den_suoi2" onclick="toggleDevice('den_suoi2')">
+              <div class="dcc-icon">🔆</div>
+              <div class="dcc-info">
+                <div class="dcc-name">Đèn sưởi 2</div>
+                <div class="dcc-sub">Relay D5 — Slave UNO</div>
+              </div>
+              <div class="dcc-toggle-wrap">
+                <div class="dcc-state" id="dcc-den_suoi2-st">TẮT</div>
+                <div class="dcc-toggle" id="dcc-den_suoi2-tog"></div>
+              </div>
+            </div>
+
+            <div class="dev-ctrl-card" id="dcc-quat_hut1" onclick="toggleDevice('quat_hut1')">
+              <div class="dcc-icon">🌀</div>
+              <div class="dcc-info">
+                <div class="dcc-name">Quạt hút 1</div>
+                <div class="dcc-sub">Relay D6 — Slave UNO</div>
+              </div>
+              <div class="dcc-toggle-wrap">
+                <div class="dcc-state" id="dcc-quat_hut1-st">TẮT</div>
+                <div class="dcc-toggle" id="dcc-quat_hut1-tog"></div>
+              </div>
+            </div>
+
+            <div class="dev-ctrl-card" id="dcc-quat_hut2" onclick="toggleDevice('quat_hut2')">
+              <div class="dcc-icon">🌀</div>
+              <div class="dcc-info">
+                <div class="dcc-name">Quạt hút 2</div>
+                <div class="dcc-sub">Relay D7 — Slave UNO</div>
+              </div>
+              <div class="dcc-toggle-wrap">
+                <div class="dcc-state" id="dcc-quat_hut2-st">TẮT</div>
+                <div class="dcc-toggle" id="dcc-quat_hut2-tog"></div>
+              </div>
+            </div>
+
+            <div class="dev-ctrl-card" id="dcc-den_phong" onclick="toggleDevice('den_phong')">
+              <div class="dcc-icon">💡</div>
+              <div class="dcc-info">
+                <div class="dcc-name">Đèn phòng</div>
+                <div class="dcc-sub">Relay A1 — Slave UNO</div>
+              </div>
+              <div class="dcc-toggle-wrap">
+                <div class="dcc-state" id="dcc-den_phong-st">TẮT</div>
+                <div class="dcc-toggle" id="dcc-den_phong-tog"></div>
+              </div>
+            </div>
+
+            <div class="dev-ctrl-card" id="dcc-phun_suong" onclick="toggleDevice('phun_suong')">
+              <div class="dcc-icon">💧</div>
+              <div class="dcc-info">
+                <div class="dcc-name">Phun sương</div>
+                <div class="dcc-sub">Relay A2 — Slave UNO</div>
+              </div>
+              <div class="dcc-toggle-wrap">
+                <div class="dcc-state" id="dcc-phun_suong-st">TẮT</div>
+                <div class="dcc-toggle" id="dcc-phun_suong-tog"></div>
+              </div>
+            </div>
+
+            <div class="dev-ctrl-card" id="dcc-quat_suong" onclick="toggleDevice('quat_suong')">
+              <div class="dcc-icon">🌬️</div>
+              <div class="dcc-info">
+                <div class="dcc-name">Quạt thổi sương</div>
+                <div class="dcc-sub">Relay A3 — Slave UNO</div>
+              </div>
+              <div class="dcc-toggle-wrap">
+                <div class="dcc-state" id="dcc-quat_suong-st">TẮT</div>
+                <div class="dcc-toggle" id="dcc-quat_suong-tog"></div>
+              </div>
+            </div>
+
+            <div class="dev-ctrl-card" id="dcc-device8" onclick="toggleDevice('device8')">
+              <div class="dcc-icon">⚙️</div>
+              <div class="dcc-info">
+                <div class="dcc-name">Thiết bị 8</div>
+                <div class="dcc-sub">Relay A4 — Slave UNO</div>
+              </div>
+              <div class="dcc-toggle-wrap">
+                <div class="dcc-state" id="dcc-device8-st">TẮT</div>
+                <div class="dcc-toggle" id="dcc-device8-tog"></div>
+              </div>
+            </div>
+
+          </div>
+          <div class="device-bulk-btns" style="margin-top:14px">
+            <button class="btn-bulk on" onclick="controlAll(true)">🔆 Bật tất cả</button>
+            <button class="btn-bulk off" onclick="controlAll(false)">⭕ Tắt tất cả</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         VIEW: LỊCH HẸN GIỜ
+    ═══════════════════════════════════════════════ -->
+    <div id="view-schedule" class="view">
+      <div class="settings-view">
+        <div class="settings-section">
+          <div class="settings-section-title">🕐 Lịch hẹn giờ thiết bị</div>
+          <div class="settings-section-sub">Thiết lập thời gian bật/tắt tự động cho từng thiết bị. Nhập ngày giờ bắt đầu và kết thúc.</div>
+
+          <div class="sched-grid">
+
+            <!-- Template: 1 thiết bị -->
+            <div class="sched-card">
+              <div class="sched-header">
+                <span class="sched-icon">🔆</span>
+                <div>
+                  <div class="sched-name">Đèn sưởi 1</div>
+                  <div class="sched-status" id="sched-status-den_suoi1">—</div>
+                </div>
+                <div class="toggle" id="sch-en-den_suoi1" onclick="toggleSchedEnable('den_suoi1',this)"></div>
+              </div>
+              <div class="sched-fields">
+                <div class="sched-field-group">
+                  <label>📅 Ngày bắt đầu</label>
+                  <input type="date" id="sch-sd-den_suoi1" class="sched-input">
+                </div>
+                <div class="sched-field-group">
+                  <label>🕐 Giờ bắt đầu</label>
+                  <input type="time" id="sch-st-den_suoi1" class="sched-input">
+                </div>
+                <div class="sched-field-group">
+                  <label>📅 Ngày kết thúc</label>
+                  <input type="date" id="sch-ed-den_suoi1" class="sched-input">
+                </div>
+                <div class="sched-field-group">
+                  <label>🕐 Giờ kết thúc</label>
+                  <input type="time" id="sch-et-den_suoi1" class="sched-input">
+                </div>
+              </div>
+              <div class="sched-actions">
+                <button class="sched-now-btn" onclick="setNowAsStart('den_suoi1')">⏱ Bắt đầu từ bây giờ</button>
+                <button class="sched-apply-btn" onclick="applySchedule('den_suoi1')">💾 Áp dụng</button>
+              </div>
+            </div>
+
+            <div class="sched-card">
+              <div class="sched-header">
+                <span class="sched-icon">🔆</span>
+                <div>
+                  <div class="sched-name">Đèn sưởi 2</div>
+                  <div class="sched-status" id="sched-status-den_suoi2">—</div>
+                </div>
+                <div class="toggle" id="sch-en-den_suoi2" onclick="toggleSchedEnable('den_suoi2',this)"></div>
+              </div>
+              <div class="sched-fields">
+                <div class="sched-field-group"><label>📅 Ngày bắt đầu</label><input type="date" id="sch-sd-den_suoi2" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ bắt đầu</label><input type="time" id="sch-st-den_suoi2" class="sched-input"></div>
+                <div class="sched-field-group"><label>📅 Ngày kết thúc</label><input type="date" id="sch-ed-den_suoi2" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ kết thúc</label><input type="time" id="sch-et-den_suoi2" class="sched-input"></div>
+              </div>
+              <div class="sched-actions">
+                <button class="sched-now-btn" onclick="setNowAsStart('den_suoi2')">⏱ Bắt đầu từ bây giờ</button>
+                <button class="sched-apply-btn" onclick="applySchedule('den_suoi2')">💾 Áp dụng</button>
+              </div>
+            </div>
+
+            <div class="sched-card">
+              <div class="sched-header">
+                <span class="sched-icon">🌀</span>
+                <div>
+                  <div class="sched-name">Quạt hút 1</div>
+                  <div class="sched-status" id="sched-status-quat_hut1">—</div>
+                </div>
+                <div class="toggle" id="sch-en-quat_hut1" onclick="toggleSchedEnable('quat_hut1',this)"></div>
+              </div>
+              <div class="sched-fields">
+                <div class="sched-field-group"><label>📅 Ngày bắt đầu</label><input type="date" id="sch-sd-quat_hut1" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ bắt đầu</label><input type="time" id="sch-st-quat_hut1" class="sched-input"></div>
+                <div class="sched-field-group"><label>📅 Ngày kết thúc</label><input type="date" id="sch-ed-quat_hut1" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ kết thúc</label><input type="time" id="sch-et-quat_hut1" class="sched-input"></div>
+              </div>
+              <div class="sched-actions">
+                <button class="sched-now-btn" onclick="setNowAsStart('quat_hut1')">⏱ Bắt đầu từ bây giờ</button>
+                <button class="sched-apply-btn" onclick="applySchedule('quat_hut1')">💾 Áp dụng</button>
+              </div>
+            </div>
+
+            <div class="sched-card">
+              <div class="sched-header">
+                <span class="sched-icon">🌀</span>
+                <div>
+                  <div class="sched-name">Quạt hút 2</div>
+                  <div class="sched-status" id="sched-status-quat_hut2">—</div>
+                </div>
+                <div class="toggle" id="sch-en-quat_hut2" onclick="toggleSchedEnable('quat_hut2',this)"></div>
+              </div>
+              <div class="sched-fields">
+                <div class="sched-field-group"><label>📅 Ngày bắt đầu</label><input type="date" id="sch-sd-quat_hut2" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ bắt đầu</label><input type="time" id="sch-st-quat_hut2" class="sched-input"></div>
+                <div class="sched-field-group"><label>📅 Ngày kết thúc</label><input type="date" id="sch-ed-quat_hut2" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ kết thúc</label><input type="time" id="sch-et-quat_hut2" class="sched-input"></div>
+              </div>
+              <div class="sched-actions">
+                <button class="sched-now-btn" onclick="setNowAsStart('quat_hut2')">⏱ Bắt đầu từ bây giờ</button>
+                <button class="sched-apply-btn" onclick="applySchedule('quat_hut2')">💾 Áp dụng</button>
+              </div>
+            </div>
+
+            <div class="sched-card">
+              <div class="sched-header">
+                <span class="sched-icon">💡</span>
+                <div>
+                  <div class="sched-name">Đèn phòng</div>
+                  <div class="sched-status" id="sched-status-den_phong">—</div>
+                </div>
+                <div class="toggle" id="sch-en-den_phong" onclick="toggleSchedEnable('den_phong',this)"></div>
+              </div>
+              <div class="sched-fields">
+                <div class="sched-field-group"><label>📅 Ngày bắt đầu</label><input type="date" id="sch-sd-den_phong" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ bắt đầu</label><input type="time" id="sch-st-den_phong" class="sched-input"></div>
+                <div class="sched-field-group"><label>📅 Ngày kết thúc</label><input type="date" id="sch-ed-den_phong" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ kết thúc</label><input type="time" id="sch-et-den_phong" class="sched-input"></div>
+              </div>
+              <div class="sched-actions">
+                <button class="sched-now-btn" onclick="setNowAsStart('den_phong')">⏱ Bắt đầu từ bây giờ</button>
+                <button class="sched-apply-btn" onclick="applySchedule('den_phong')">💾 Áp dụng</button>
+              </div>
+            </div>
+
+            <div class="sched-card">
+              <div class="sched-header">
+                <span class="sched-icon">💧</span>
+                <div>
+                  <div class="sched-name">Phun sương</div>
+                  <div class="sched-status" id="sched-status-phun_suong">—</div>
+                </div>
+                <div class="toggle" id="sch-en-phun_suong" onclick="toggleSchedEnable('phun_suong',this)"></div>
+              </div>
+              <div class="sched-fields">
+                <div class="sched-field-group"><label>📅 Ngày bắt đầu</label><input type="date" id="sch-sd-phun_suong" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ bắt đầu</label><input type="time" id="sch-st-phun_suong" class="sched-input"></div>
+                <div class="sched-field-group"><label>📅 Ngày kết thúc</label><input type="date" id="sch-ed-phun_suong" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ kết thúc</label><input type="time" id="sch-et-phun_suong" class="sched-input"></div>
+              </div>
+              <div class="sched-actions">
+                <button class="sched-now-btn" onclick="setNowAsStart('phun_suong')">⏱ Bắt đầu từ bây giờ</button>
+                <button class="sched-apply-btn" onclick="applySchedule('phun_suong')">💾 Áp dụng</button>
+              </div>
+            </div>
+
+            <div class="sched-card">
+              <div class="sched-header">
+                <span class="sched-icon">🌬️</span>
+                <div>
+                  <div class="sched-name">Quạt thổi sương</div>
+                  <div class="sched-status" id="sched-status-quat_suong">—</div>
+                </div>
+                <div class="toggle" id="sch-en-quat_suong" onclick="toggleSchedEnable('quat_suong',this)"></div>
+              </div>
+              <div class="sched-fields">
+                <div class="sched-field-group"><label>📅 Ngày bắt đầu</label><input type="date" id="sch-sd-quat_suong" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ bắt đầu</label><input type="time" id="sch-st-quat_suong" class="sched-input"></div>
+                <div class="sched-field-group"><label>📅 Ngày kết thúc</label><input type="date" id="sch-ed-quat_suong" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ kết thúc</label><input type="time" id="sch-et-quat_suong" class="sched-input"></div>
+              </div>
+              <div class="sched-actions">
+                <button class="sched-now-btn" onclick="setNowAsStart('quat_suong')">⏱ Bắt đầu từ bây giờ</button>
+                <button class="sched-apply-btn" onclick="applySchedule('quat_suong')">💾 Áp dụng</button>
+              </div>
+            </div>
+
+            <div class="sched-card">
+              <div class="sched-header">
+                <span class="sched-icon">⚙️</span>
+                <div>
+                  <div class="sched-name">Thiết bị 8</div>
+                  <div class="sched-status" id="sched-status-device8">—</div>
+                </div>
+                <div class="toggle" id="sch-en-device8" onclick="toggleSchedEnable('device8',this)"></div>
+              </div>
+              <div class="sched-fields">
+                <div class="sched-field-group"><label>📅 Ngày bắt đầu</label><input type="date" id="sch-sd-device8" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ bắt đầu</label><input type="time" id="sch-st-device8" class="sched-input"></div>
+                <div class="sched-field-group"><label>📅 Ngày kết thúc</label><input type="date" id="sch-ed-device8" class="sched-input"></div>
+                <div class="sched-field-group"><label>🕐 Giờ kết thúc</label><input type="time" id="sch-et-device8" class="sched-input"></div>
+              </div>
+              <div class="sched-actions">
+                <button class="sched-now-btn" onclick="setNowAsStart('device8')">⏱ Bắt đầu từ bây giờ</button>
+                <button class="sched-apply-btn" onclick="applySchedule('device8')">💾 Áp dụng</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         VIEW: BIỂU ĐỒ
+    ═══════════════════════════════════════════════ -->
+    <div id="view-charts" class="view">
+      <div class="charts-full-view">
+        <div class="chart-card full-width">
+          <div class="mc-header">
+            <div class="mc-title">🌡️ Nhiệt độ & Độ ẩm — Lịch sử 20 điểm gần nhất</div>
+            <span class="pill green">Phòng A</span>
+          </div>
+          <div style="height: 420px;">
+            <canvas id="chart-sensor-history-full"></canvas>
+          </div>
+        </div>
+        <div class="chart-card full-width" style="margin-top: 30px;">
+          <div class="mc-header">
+            <div class="mc-title">🌱 Ẩm đất & Ánh sáng — Lịch sử 20 điểm gần nhất</div>
+            <span class="pill teal">Cảm biến</span>
+          </div>
+          <div style="height: 420px;">
+            <canvas id="chart-soil-lux-full"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
+         VIEW: CÀI ĐẶT NGƯỠNG
+    ═══════════════════════════════════════════════ -->
+    <div id="view-settings" class="view">
+      <div class="settings-view">
+
+        <div class="settings-section">
+          <div class="settings-section-title">🍄 Chọn loại nấm (Preset)</div>
+          <div class="settings-section-sub">Chọn loại nấm để nạp ngưỡng khuyến nghị.</div>
+          <div class="preset-grid">
+            <button class="preset-btn active" data-preset="romStraw" onclick="applyPreset('romStraw')">🌾 Nấm rơm</button>
+            <button class="preset-btn" data-preset="oyster" onclick="applyPreset('oyster')">🍄 Nấm sò</button>
+            <button class="preset-btn" data-preset="shiitake" onclick="applyPreset('shiitake')">🌸 Nấm hương</button>
+            <button class="preset-btn" data-preset="enoki" onclick="applyPreset('enoki')">🌿 Kim châm</button>
+            <button class="preset-btn" data-preset="button" onclick="applyPreset('button')">⚪ Nấm mỡ</button>
+            <button class="preset-btn" data-preset="custom" onclick="applyPreset('custom')">✏️ Tùy chỉnh</button>
+          </div>
+          <div id="preset-active-label" style="font-family:var(--font-m);font-size:11px;color:var(--c-green-m);margin-top:4px"></div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">⚙️ Ngưỡng thông số môi trường</div>
+          <div class="settings-grid">
+            <div class="setting-group">
+              <div class="setting-group-title">🌡️ Nhiệt độ (°C)</div>
+              <div class="setting-row">
+                <div class="setting-label">Tối thiểu<span>Cảnh báo lạnh</span></div>
+                <div class="setting-input"><input type="number" id="th-temp-min" value="28" step="0.5"><span class="unit">°C</span></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-label">Tối đa<span>Cảnh báo nóng</span></div>
+                <div class="setting-input"><input type="number" id="th-temp-max" value="35" step="0.5"><span class="unit">°C</span></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-label">Nguy hiểm<span>Cảnh báo khẩn cấp</span></div>
+                <div class="setting-input"><input type="number" id="th-temp-danger" value="38" step="0.5"><span class="unit">°C</span></div>
+              </div>
+            </div>
+            <div class="setting-group">
+              <div class="setting-group-title">💧 Độ ẩm (%)</div>
+              <div class="setting-row">
+                <div class="setting-label">Tối thiểu<span>Cảnh báo khô</span></div>
+                <div class="setting-input"><input type="number" id="th-humi-min" value="80" step="1"><span class="unit">%</span></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-label">Tối đa<span>Cảnh báo ẩm</span></div>
+                <div class="setting-input"><input type="number" id="th-humi-max" value="95" step="1"><span class="unit">%</span></div>
+              </div>
+              <div class="setting-row">
+                <div class="setting-label">Nguy hiểm<span>Cảnh báo khẩn cấp</span></div>
+                <div class="setting-input"><input type="number" id="th-humi-danger" value="98" step="1"><span class="unit">%</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="thresh-visual">
+            <div class="thresh-card">
+              <div class="thresh-card-title">Dải nhiệt độ</div>
+              <div class="thresh-bar-labels">
+                <span id="tv-temp-min">28°C</span><span>Tối ưu</span>
+                <span id="tv-temp-max">35°C</span><span id="tv-temp-danger" style="color:var(--c-red)">38°C ⚠</span>
+              </div>
+              <div class="thresh-bar"></div>
+            </div>
+            <div class="thresh-card">
+              <div class="thresh-card-title">Dải độ ẩm</div>
+              <div class="thresh-bar-labels">
+                <span id="tv-humi-min">80%</span><span>Tối ưu</span>
+                <span id="tv-humi-max">95%</span><span id="tv-humi-danger" style="color:var(--c-red)">98% ⚠</span>
+              </div>
+              <div class="thresh-bar"></div>
+            </div>
+          </div>
+
+          <div class="settings-btn-row">
+            <button class="btn-primary" onclick="saveSettings()">💾 Lưu & Áp dụng</button>
+            <button class="btn-secondary" onclick="resetSettings()">↩ Đặt lại</button>
+            <div class="settings-saved" id="settings-saved">✓ Đã lưu!</div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-title">📊 Đang áp dụng</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+            <div class="setting-group" style="text-align:center">
+              <div class="setting-group-title" style="justify-content:center">🌡️ Nhiệt độ</div>
+              <div style="font-family:var(--font-m);font-size:13px;color:var(--c-green-m)" id="curr-temp-range">28 – 35°C</div>
+              <div style="font-size:11px;color:var(--c-red);margin-top:4px" id="curr-temp-danger">⚠ Nguy hiểm: 38°C</div>
+            </div>
+            <div class="setting-group" style="text-align:center">
+              <div class="setting-group-title" style="justify-content:center">💧 Độ ẩm</div>
+              <div style="font-family:var(--font-m);font-size:13px;color:var(--c-blue-m)" id="curr-humi-range">80 – 95%</div>
+              <div style="font-size:11px;color:var(--c-red);margin-top:4px" id="curr-humi-danger">⚠ Nguy hiểm: 98%</div>
+            </div>
+            <div class="setting-group" style="text-align:center">
+              <div class="setting-group-title" style="justify-content:center">🍄 Loại nấm</div>
+              <div style="font-family:var(--font-m);font-size:13px;color:var(--c-green-m)" id="curr-mushroom">Nấm rơm</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-left"><strong>Đại học Giao thông Vận tải</strong> — Khoa Điện – Điện tử</div>
+      <div class="footer-center">NấmSmart Dashboard v4.1 · 8 Thiết bị · ESP32 + UNO Slave</div>
+      <div class="footer-right">SV: <strong>Đỗ Đức Duy</strong></div>
+    </footer>
+  </main>
+
+  <div class="gauge-modal" id="gauge-modal" aria-hidden="true">
+    <div class="gauge-backdrop" data-close-gauge></div>
+    <div class="gauge-dialog" role="dialog" aria-modal="true" aria-labelledby="gauge-title">
+      <div class="gauge-head">
+        <div>
+          <div class="gauge-title" id="gauge-title">Biểu đồ thông số</div>
+          <div class="gauge-sub" id="gauge-sub">--</div>
+        </div>
+        <button class="gauge-close" type="button" data-close-gauge>×</button>
+      </div>
+      <div class="gauge-body">
+        <div class="gauge-panel">
+          <canvas id="gauge-main-chart"></canvas>
+          <div class="gauge-center">
+            <div class="gauge-number" id="gauge-main-value">--</div>
+            <div class="gauge-unit" id="gauge-main-unit"></div>
+          </div>
+        </div>
+        <div class="gauge-side">
+          <div class="gauge-kpi">
+            <span>Hiện tại</span>
+            <strong id="gauge-current">--</strong>
+          </div>
+          <div class="gauge-kpi">
+            <span>Min/Max</span>
+            <strong id="gauge-range">--/--</strong>
+          </div>
+          <div class="gauge-kpi">
+            <span>Trung bình</span>
+            <strong id="gauge-avg">--</strong>
+          </div>
+          <div class="gauge-kpi">
+            <span>Cập nhật</span>
+            <strong id="gauge-time">--</strong>
+          </div>
+        </div>
+      </div>
+      <div class="gauge-history">
+        <canvas id="gauge-history-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
