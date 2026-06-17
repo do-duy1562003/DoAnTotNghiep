@@ -1,0 +1,27 @@
+Added Component: Designator=?(LIGHT-SENSOR-BH1750)
+Added Component: Designator=DHT11(DHT11)
+Added Component: Designator=U?(LORA RA 02)
+Added Component: Designator=U?(RELAY 4 CHANNEL)
+Added Component: Designator=U?(UNO R3)
+Added Component: Designator=U?(Soil)
+Added Pin To Net: NetName=3V3 Pin=U?-3
+Added Net: Name=3V3
+Added Pin To Net: NetName=GND Pin=U?-1
+Added Pin To Net: NetName=GND Pin=U?-2
+Added Pin To Net: NetName=GND Pin=U?-9
+Added Pin To Net: NetName=GND Pin=U?-16
+Added Net: Name=GND
+Added Pin To Net: NetName=LORA DIO0 Pin=U?-5
+Added Net: Name=LORA DIO0
+Added Pin To Net: NetName=LORA MISO Pin=U?-12
+Added Net: Name=LORA MISO
+Added Pin To Net: NetName=LORA MOSI Pin=U?-11
+Added Net: Name=LORA MOSI
+Added Pin To Net: NetName=LORA NSS Pin=U?-10
+Added Net: Name=LORA NSS
+Added Pin To Net: NetName=LORA RESET Pin=U?-4
+Added Net: Name=LORA RESET
+Added Pin To Net: NetName=LORA SCK Pin=U?-13
+Added Net: Name=LORA SCK
+Added Class: Name=Slave
+Added Room: Name=Slave

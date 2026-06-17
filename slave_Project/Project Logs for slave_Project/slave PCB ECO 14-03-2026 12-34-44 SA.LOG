@@ -1,0 +1,45 @@
+Added Component: Designator=HD?(HED3T)
+Add component (AddParameter): Name = "Value"; Value = "Header 3"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=?-2
+Added Pin To Net: NetName=GND Pin=DHT11-4
+Added Pin To Net: NetName=GND Pin=HD?-1
+Added Pin To Net: NetName=3V3 Pin=HD?-3
+Added Pin To Net: NetName=GND Pin=U?-1
+Added Pin To Net: NetName=GND Pin=U?-2
+Added Pin To Net: NetName=GND Pin=U?-2
+Added Pin To Net: NetName=3V3 Pin=U?-3
+Added Pin To Net: NetName=LORA RESET Pin=U?-4
+Added Pin To Net: NetName=LORA DIO0 Pin=U?-5
+Added Pin To Net: NetName=GND Pin=U?-9
+Added Pin To Net: NetName=LORA NSS Pin=U?-10
+Added Pin To Net: NetName=LORA MOSI Pin=U?-11
+Added Pin To Net: NetName=LORA MISO Pin=U?-12
+Added Pin To Net: NetName=LORA SCK Pin=U?-13
+Added Pin To Net: NetName=GND Pin=U?-16
+Added Pin To Net: NetName=5V Pin=?-1
+Added Pin To Net: NetName=5V Pin=DHT11-1
+Added Pin To Net: NetName=5V Pin=HD?-2
+Added Pin To Net: NetName=5V Pin=U?-1
+Added Net: Name=5V
+Added Pin To Net: NetName=DATA IN1 Pin=U?-3
+Added Net: Name=DATA IN1
+Added Pin To Net: NetName=DATA IN2 Pin=U?-4
+Added Net: Name=DATA IN2
+Added Pin To Net: NetName=DATA IN3 Pin=U?-5
+Added Net: Name=DATA IN3
+Added Pin To Net: NetName=DATA IN4 Pin=U?-6
+Added Net: Name=DATA IN4
+Added Net: Name=DATA Soil
+Added Pin To Net: NetName=DHT DATA Pin=DHT11-3
+Added Net: Name=DHT DATA
+Added Pin To Net: NetName=SCL Pin=?-3
+Added Net: Name=SCL
+Added Pin To Net: NetName=SDA Pin=?-4
+Added Net: Name=SDA
+Added Member To Class: ClassName=Slave Member=Component ? BH1750
+Added Member To Class: ClassName=Slave Member=Component DHT11
+Added Member To Class: ClassName=Slave Member=Component HD? Header 3
+Added Member To Class: ClassName=Slave Member=Component U? RA-02
+Added Member To Class: ClassName=Slave Member=Component U? ARDUINOUNO
+Added Member To Class: ClassName=Slave Member=Component U? Soil_moisture_sensor_module
+Added Member To Class: ClassName=Slave Member=Component U? RELAY 4 CHANNEL

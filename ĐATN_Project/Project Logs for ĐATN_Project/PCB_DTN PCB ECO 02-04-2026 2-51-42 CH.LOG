@@ -1,0 +1,15 @@
+Added Component: Designator=LED2(LED-5 GRe)
+Add component (AddParameter): Name = "Value"; Value = "LED 3 ly Single Colour"; VariantName = "[No Variations]"
+Added Component: Designator=R?(R1/4W)
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=LED2-1
+Added Pin To Net: NetName=NetLED2_2 Pin=LED2-2
+Added Pin To Net: NetName=NetLED2_2 Pin=R?-2
+Added Net: Name=NetLED2_2
+Added Pin To Net: NetName=NetR?_1 Pin=R?-1
+Added Pin To Net: NetName=NetR?_1 Pin=U1-24
+Added Net: Name=NetR?_1
+Added Member To Class: ClassName=SCH_DTN Member=Component LED2 LED
+Added Member To Class: ClassName=SCH_DTN Member=Component R3 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component R5 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component R? 10k (1/4W)

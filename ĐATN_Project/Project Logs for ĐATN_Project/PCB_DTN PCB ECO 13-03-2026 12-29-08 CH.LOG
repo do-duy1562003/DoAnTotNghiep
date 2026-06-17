@@ -1,0 +1,39 @@
+Removed Member From Class: ClassName=SCH_DTN Member=IC?
+Change Component Designator: OldDesignator=* NewDesignator=*1
+Change Component Designator: OldDesignator=C? NewDesignator=C4
+Change Component Designator: OldDesignator=C? NewDesignator=C5
+Change Component Designator: OldDesignator=C? NewDesignator=C6
+Change Component Designator: OldDesignator=C? NewDesignator=C7
+Change Component Designator: OldDesignator=P? NewDesignator=P1
+Change Component Designator: OldDesignator=R3 NewDesignator=R2
+Change Component Designator: OldDesignator=R5 NewDesignator=R1
+Change Component Designator: OldDesignator=R? NewDesignator=R3
+Change Component Designator: OldDesignator=R? NewDesignator=R4
+Change Component Designator: OldDesignator=R? NewDesignator=R5
+Change Component Designator: OldDesignator=R? NewDesignator=R6
+Change Component Designator: OldDesignator=RED NewDesignator=RED1
+Change Component Designator: OldDesignator=SW? NewDesignator=SW1
+Change Component Designator: OldDesignator=SW? NewDesignator=SW2
+Change Component Designator: OldDesignator=SW? NewDesignator=SW3
+Change Component Designator: OldDesignator=SW? NewDesignator=SW4
+Change Component Designator: OldDesignator=U? NewDesignator=U1
+Change Component Designator: OldDesignator=U? NewDesignator=U2
+Added Component: Designator=HD?(HED3T)
+Add component (AddParameter): Name = "Value"; Value = "Header 3"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=GND Pin=HD?-1
+Added Pin To Net: NetName=5V Pin=HD?-2
+Added Pin To Net: NetName=3V3 Pin=HD?-3
+Added Pin To Net: NetName=5V Pin=U1-15
+Change Net Name : Old Net Name=NetR3_1 New Net Name=NetR2_1
+Change Net Name : Old Net Name=NetRED_2 New Net Name=NetRED1_2
+Added Member To Class: ClassName=SCH_DTN Member=Component C4 100nF/50V
+Added Member To Class: ClassName=SCH_DTN Member=Component C5 100nF/50V
+Added Member To Class: ClassName=SCH_DTN Member=Component C6 100nF/50V
+Added Member To Class: ClassName=SCH_DTN Member=Component HD? Header 3
+Added Member To Class: ClassName=SCH_DTN Member=Component R3 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component R5 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component R6 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component SW1 SW
+Added Member To Class: ClassName=SCH_DTN Member=Component SW3 SW
+Added Member To Class: ClassName=SCH_DTN Member=Component SW4 SW
+Added Member To Class: ClassName=SCH_DTN Member=Component U1 ESP32_DEVKIT1

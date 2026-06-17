@@ -1,0 +1,21 @@
+Added Component: Designator=U?(UNO R3)
+Added Pin To Net: NetName=LORA RESET Pin=U?-2
+Added Pin To Net: NetName=LORA NSS Pin=U?-3
+Added Pin To Net: NetName=LORA MOSI Pin=U?-4
+Added Pin To Net: NetName=LORA MISO Pin=U?-5
+Added Pin To Net: NetName=LORA SCK Pin=U?-6
+Added Pin To Net: NetName=GND Pin=U?-7
+Added Pin To Net: NetName=LORA DIO0 Pin=U?-13
+Added Pin To Net: NetName=DHT DATA Pin=U?-14
+Added Pin To Net: NetName=DATA IN1 Pin=U?-15
+Added Pin To Net: NetName=DATA IN2 Pin=U?-16
+Added Pin To Net: NetName=DATA IN3 Pin=U?-17
+Added Pin To Net: NetName=DATA IN4 Pin=U?-18
+Added Pin To Net: NetName=DATA Soil Pin=U?-19
+Added Pin To Net: NetName=SDA Pin=U?-23
+Added Pin To Net: NetName=SCL Pin=U?-24
+Added Pin To Net: NetName=3V3 Pin=U?-28
+Added Pin To Net: NetName=5V Pin=U?-29
+Added Pin To Net: NetName=GND Pin=U?-30
+Added Pin To Net: NetName=GND Pin=U?-31
+Added Member To Class: ClassName=Slave Member=Component U? ARDUINOUNO_1

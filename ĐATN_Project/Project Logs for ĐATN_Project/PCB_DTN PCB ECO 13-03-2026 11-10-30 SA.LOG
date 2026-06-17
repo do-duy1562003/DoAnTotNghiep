@@ -1,0 +1,119 @@
+Removed Member From Class: ClassName=SCH_DTN Member=?
+Added Component: Designator=C?(CN1.5)
+Add component (AddParameter): Name = "Value"; Value = "0.01uF"; VariantName = "[No Variations]"
+Added Component: Designator=C?(CN1.5)
+Add component (AddParameter): Name = "Value"; Value = "0.01uF"; VariantName = "[No Variations]"
+Added Component: Designator=C?(CN1.5)
+Add component (AddParameter): Name = "Value"; Value = "0.01uF"; VariantName = "[No Variations]"
+Added Component: Designator=C?(CN1.5)
+Add component (AddParameter): Name = "Value"; Value = "0.01uF"; VariantName = "[No Variations]"
+Added Component: Designator=IC?(SOT223-4N)
+Add component (AddParameter): Name = "Value"; Value = "LM317"; VariantName = "[No Variations]"
+Added Component: Designator=IC?(QTO-220)
+Add component (AddParameter): Name = "Value"; Value = "LM7805"; VariantName = "[No Variations]"
+Added Component: Designator=IC?(SOT223-4N)
+Add component (AddParameter): Name = "Value"; Value = "LM317"; VariantName = "[No Variations]"
+Added Component: Designator=IC?(QTO-220)
+Add component (AddParameter): Name = "Value"; Value = "LM7805"; VariantName = "[No Variations]"
+Added Component: Designator=P?(DS3231S - duplicate)
+Added Component: Designator=R?(R1/4W)
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R?(R1/4W)
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R?(R1/4W)
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=R?(R1/4W)
+Add component (AddParameter): Name = "Value"; Value = "R1/4W - 1K"; VariantName = "[No Variations]"
+Added Component: Designator=SW?(SW4)
+Add component (AddParameter): Name = "Value"; Value = "SW chip 4 pin"; VariantName = "[No Variations]"
+Added Component: Designator=SW?(SW4)
+Add component (AddParameter): Name = "Value"; Value = "SW chip 4 pin"; VariantName = "[No Variations]"
+Added Component: Designator=SW?(SW4)
+Add component (AddParameter): Name = "Value"; Value = "SW chip 4 pin"; VariantName = "[No Variations]"
+Added Component: Designator=SW?(SW4)
+Add component (AddParameter): Name = "Value"; Value = "SW chip 4 pin"; VariantName = "[No Variations]"
+Added Component: Designator=U?(RELAY 4 CHANNEL)
+Added Component: Designator=U?(LORA RA 02)
+Added Pin To Net: NetName=GND Pin=*-1
+Added Pin To Net: NetName=I2C SDA Pin=*-3
+Added Pin To Net: NetName=I2C SCL Pin=*-4
+Added Pin To Net: NetName=SW1 Pin=C?-1
+Added Pin To Net: NetName=SW2 Pin=C?-1
+Added Pin To Net: NetName=SW3 Pin=C?-1
+Added Pin To Net: NetName=SW4 Pin=C?-1
+Added Pin To Net: NetName=GND Pin=C?-2
+Added Pin To Net: NetName=GND Pin=C?-2
+Added Pin To Net: NetName=GND Pin=C?-2
+Added Pin To Net: NetName=GND Pin=C?-2
+Added Pin To Net: NetName=GND Pin=P?-1
+Added Pin To Net: NetName=3V3 Pin=P?-2
+Added Pin To Net: NetName=I2C SDA Pin=P?-3
+Added Pin To Net: NetName=I2C SCL Pin=P?-4
+Added Pin To Net: NetName=3V3 Pin=R?-1
+Added Pin To Net: NetName=3V3 Pin=R?-1
+Added Pin To Net: NetName=3V3 Pin=R?-1
+Added Pin To Net: NetName=3V3 Pin=R?-1
+Added Pin To Net: NetName=SW1 Pin=R?-2
+Added Pin To Net: NetName=SW2 Pin=R?-2
+Added Pin To Net: NetName=SW3 Pin=R?-2
+Added Pin To Net: NetName=SW4 Pin=R?-2
+Added Pin To Net: NetName=SW1 Pin=SW?-1
+Added Pin To Net: NetName=SW2 Pin=SW?-1
+Added Pin To Net: NetName=SW3 Pin=SW?-1
+Added Pin To Net: NetName=SW4 Pin=SW?-1
+Added Pin To Net: NetName=GND Pin=SW?-2
+Added Pin To Net: NetName=GND Pin=SW?-2
+Added Pin To Net: NetName=GND Pin=SW?-2
+Added Pin To Net: NetName=GND Pin=SW?-2
+Added Pin To Net: NetName=SW1 Pin=SW?-3
+Added Pin To Net: NetName=SW2 Pin=SW?-3
+Added Pin To Net: NetName=SW3 Pin=SW?-3
+Added Pin To Net: NetName=SW4 Pin=SW?-3
+Added Pin To Net: NetName=GND Pin=SW?-4
+Added Pin To Net: NetName=GND Pin=SW?-4
+Added Pin To Net: NetName=GND Pin=SW?-4
+Added Pin To Net: NetName=GND Pin=SW?-4
+Added Pin To Net: NetName=GND Pin=U?-1
+Added Pin To Net: NetName=NetC1_2 Pin=U?-1
+Added Pin To Net: NetName=GND Pin=U?-2
+Added Pin To Net: NetName=3V3 Pin=U?-3
+Added Pin To Net: NetName=LORA RESET Pin=U?-4
+Added Pin To Net: NetName=LORA DIO0 Pin=U?-5
+Added Pin To Net: NetName=GND Pin=U?-9
+Added Pin To Net: NetName=LORA RESET Pin=U?-9
+Added Pin To Net: NetName=LORA DIO0 Pin=U?-10
+Added Pin To Net: NetName=LORA MISO Pin=U?-12
+Added Pin To Net: NetName=LORA MISO Pin=U?-12
+Added Pin To Net: NetName=GND Pin=U?-14
+Added Pin To Net: NetName=3V3 Pin=U?-16
+Added Pin To Net: NetName=GND Pin=U?-16
+Added Pin To Net: NetName=5V Pin=*-2
+Added Net: Name=5V
+Added Pin To Net: NetName=LORA MIOS Pin=U?-13
+Added Net: Name=LORA MIOS
+Added Pin To Net: NetName=LORA MOSI Pin=U?-11
+Added Net: Name=LORA MOSI
+Added Pin To Net: NetName=LORA NSS Pin=U?-10
+Added Net: Name=LORA NSS
+Added Pin To Net: NetName=LORA SCK Pin=U?-11
+Added Pin To Net: NetName=LORA SCK Pin=U?-13
+Added Net: Name=LORA SCK
+Added Class: Name=Slave
+Added Member To Class: ClassName=SCH_DTN Member=Component C? 100nF/50V
+Added Member To Class: ClassName=SCH_DTN Member=Component C? 100nF/50V
+Added Member To Class: ClassName=SCH_DTN Member=Component C? 100nF/50V
+Added Member To Class: ClassName=SCH_DTN Member=Component C? 100nF/50V
+Added Member To Class: ClassName=SCH_DTN Member=Component IC? LM7805
+Added Member To Class: ClassName=SCH_DTN Member=Component IC? LM1117
+Added Member To Class: ClassName=SCH_DTN Member=Component P? DS3231S
+Added Member To Class: ClassName=SCH_DTN Member=Component R? 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component R? 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component R? 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component R? 10k (1/4W)
+Added Member To Class: ClassName=SCH_DTN Member=Component SW? SW
+Added Member To Class: ClassName=SCH_DTN Member=Component SW? SW
+Added Member To Class: ClassName=SCH_DTN Member=Component SW? SW
+Added Member To Class: ClassName=SCH_DTN Member=Component SW? SW
+Added Member To Class: ClassName=SCH_DTN Member=Component U? ESP32_DEVKIT1
+Added Member To Class: ClassName=SCH_DTN Member=Component U? RA-02
+Added Room: Name=Slave

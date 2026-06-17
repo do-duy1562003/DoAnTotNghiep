@@ -1,0 +1,32 @@
+Added Component: Designator=DHT?(DHT22)
+Add component (AddParameter): Name = "ComponentLink1 Description"; Value = "Manufacturer"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.we-online.com"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2 Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "http://katalog.we-online.de/em/datasheet/6130xx143121.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Created by"; Value = "Karrer Zheng"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Created Date"; Value = "29 March 2013"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "W¨¹rth Elektronik eiSos GmbH"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "NoPins"; Value = "04"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "partNo"; Value = "613004143121"; VariantName = "[No Variations]"
+Added Component: Designator=IC?(QTO-220)
+Add component (AddParameter): Name = "Value"; Value = "LM7805"; VariantName = "[No Variations]"
+Added Component: Designator=IC?(SOT223-4N)
+Add component (AddParameter): Name = "Value"; Value = "LM317"; VariantName = "[No Variations]"
+Added Component: Designator=P?(DS3231S - duplicate)
+Added Component: Designator=U?(RELAY 4 CHANNEL)
+Added Component: Designator=U?(LORA RA 02)
+Added Pin To Net: NetName=NetC1_2 Pin=U?-1
+Added Pin To Net: NetName=LORA RESET Pin=U?-9
+Added Pin To Net: NetName=LORA DIO0 Pin=U?-10
+Added Pin To Net: NetName=LORA CLK Pin=U?-11
+Added Pin To Net: NetName=LORA MISO Pin=U?-12
+Added Pin To Net: NetName=LORA MIOSI Pin=U?-13
+Added Pin To Net: NetName=GND Pin=U?-14
+Added Pin To Net: NetName=3V3 Pin=U?-16
+Added Member To Class: ClassName=SCH_DTN Member=Component DHT? DHT22
+Added Member To Class: ClassName=SCH_DTN Member=Component IC? LM7805
+Added Member To Class: ClassName=SCH_DTN Member=Component IC? LM1117
+Added Member To Class: ClassName=SCH_DTN Member=Component P? DS3231S
+Added Member To Class: ClassName=SCH_DTN Member=Component U? RELAY 4 CHANNEL
+Added Member To Class: ClassName=SCH_DTN Member=Component U? ESP32_DEVKIT1
+Added Member To Class: ClassName=SCH_DTN Member=Component U? RA-02

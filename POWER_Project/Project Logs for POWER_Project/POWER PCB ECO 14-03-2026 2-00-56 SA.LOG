@@ -1,0 +1,15 @@
+Change Component Designator: OldDesignator=C? NewDesignator=C1
+Change Component Designator: OldDesignator=C? NewDesignator=C2
+Change Component Designator: OldDesignator=C? NewDesignator=C3
+Change Component Designator: OldDesignator=C? NewDesignator=C4
+Change Component Designator: OldDesignator=C? NewDesignator=C5
+Change Component Designator: OldDesignator=C? NewDesignator=C6
+Change Component Designator: OldDesignator=HD? NewDesignator=HD1
+Change Component Designator: OldDesignator=IC? NewDesignator=IC1
+Change Component Designator: OldDesignator=P? NewDesignator=P1
+Change Component Designator: OldDesignator=U? NewDesignator=U1
+Added Member To Class: ClassName=POWER Member=Component C1 100uF/25V
+Added Member To Class: ClassName=POWER Member=Component C2 100uF/25V
+Added Member To Class: ClassName=POWER Member=Component C3 100uF/25V
+Added Member To Class: ClassName=POWER Member=Component C4 100nF/50V
+Added Member To Class: ClassName=POWER Member=Component C5 100nF/50V
